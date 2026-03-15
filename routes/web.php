@@ -46,7 +46,10 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::get('/business', [businessController::class, 'index'])->name('business');
+Route::prefix('business')->name('business.')->middleware('auth')->group(function () {
+    Route::get('/', [businessController::class, 'index'])->name('index');
+    Route::post('/store', [businessController::class, 'store'])->name('store');
+});
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::redirect('/', '/admin/dashboard');

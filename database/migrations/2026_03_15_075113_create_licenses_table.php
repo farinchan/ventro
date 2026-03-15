@@ -13,6 +13,21 @@ return new class extends Migration
     {
         Schema::create('licenses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->integer('max_transactions_per_day')->nullable();
+            $table->integer('max_outlets')->nullable();
+            $table->integer('max_users')->nullable();
+            $table->string('status')->default('active');
+            $table->decimal('price', 10, 2)->default(0.00);
+
+            $table->index('name');
+            $table->index('max_transactions_per_day');
+            $table->index('max_outlets');
+            $table->index('max_users');
+            $table->index('status');
+            $table->index('price');
+
             $table->timestamps();
         });
     }

@@ -16,8 +16,11 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('domain')->unique();
+            $table->string('domain')->nullable()->unique();
             $table->text('description')->nullable();
+            $table->foreignId('license_id')->constrained('licenses')->onDelete('cascade');
+            $table->enum('billing_cycle', ['monthly', 'yearly'])->nullable();
+            $table->date('expiry_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
