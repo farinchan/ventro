@@ -31,6 +31,7 @@
       isset($configData['contentLayout']) && $configData['contentLayout'] === 'compact'
           ? 'container-xxl'
           : 'container-fluid';
+  $useAdminVerticalMenu = ($configData['verticalMenu'] ?? 'default') === 'admin' || request()->routeIs('admin.*');
 
 @endphp
 
@@ -39,7 +40,11 @@
     <div class="layout-container">
 
       @if ($isMenu)
-        @include('layouts/sections/menu/verticalMenu')
+        @if ($useAdminVerticalMenu)
+          @include('layouts/sections/menu/adminVerticalMenu')
+        @else
+          @include('layouts/sections/menu/verticalMenu')
+        @endif
       @endif
 
 

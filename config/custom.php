@@ -8,6 +8,7 @@
 return [
     'custom' => [
         'myLayout' => 'vertical', // Layout type: 'vertical' (default), 'horizontal'
+        'verticalMenu' => 'default', // Vertical menu source: 'default' or 'admin'
         'primaryColor' => '#5692FF', // Set the primary color
         'myTheme' => 'light', // Theme options: 'light' (default), 'dark', 'system'
         'mySkins' => 'bordered', // Skin options: 'default', 'bordered'
