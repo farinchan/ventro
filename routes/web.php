@@ -4,12 +4,11 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Back\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Back\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Back\businessController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\language\LanguageController;
-use App\Http\Controllers\pages\HomePage;
-use App\Http\Controllers\pages\MiscError;
-use App\Http\Controllers\pages\Page2;
 use Illuminate\Support\Facades\Route;
 
 // Main Page Route
@@ -49,6 +48,8 @@ Route::prefix('auth')->group(function () {
 
 Route::get('/business', [businessController::class, 'index'])->name('business');
 
-Route::prefix('admin')->name('admin.')->group(function () {
-
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::redirect('/', '/admin/dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', AdminUserController::class);
 });

@@ -1,37 +1,23 @@
 {
   "menu": [
     {
-      "url": "/dashboard",
-      "name": "Home",
-      "icon": "menu-icon icon-base ri ri-home-smile-line",
+      "url": "/admin/dashboard",
+      "name": "Dashboard",
+      "icon": "menu-icon icon-base ri ri-dashboard-fill",
       "slug": "pages-home"
     },
+
     {
-      "url": "/page-2",
-      "icon": "menu-icon icon-base ri ri-file-3-line",
-      "name": "Page 2",
-      "slug": "pages-page-2"
+      "url": "/admin/users",
+      "name": "User Management",
+      "icon": "menu-icon icon-base ri ri-user-settings-fill",
+      "slug": "admin-users"
     },
     {
-      "url": "/pages/misc-error",
-      "name": "Error",
-      "icon": "menu-icon icon-base ri ri-alert-line",
-      "slug": "pages-misc-error",
-      "target": "_blank"
-    },
-    {
-      "url": "/auth/login-basic",
-      "name": "Login",
-      "icon": "menu-icon icon-base ri ri-logout-box-r-line",
-      "slug": "auth-login-basic",
-      "target": "_blank"
-    },
-    {
-      "url": "/auth/register-basic",
-      "name": "Register",
-      "icon": "menu-icon icon-base ri ri-account-circle-line",
-      "slug": "auth-register-basic",
-      "target": "_blank"
+      "url": "/admin/business",
+      "name": "Business Management",
+      "icon": "menu-icon icon-base ri ri-building-2-line",
+      "slug": "admin-business"
     }
   ]
 }
