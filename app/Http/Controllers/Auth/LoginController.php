@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+
+class LoginController extends Controller
+{
+    public function index(): View
+    {
+        $pageConfigs = ['myLayout' => 'blank'];
+
+        return view('content.auth.login', ['pageConfigs' => $pageConfigs]);
+    }
+
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        if (! Auth::attempt($request->credentials(), $request->remember())) {
+            return back()
+                ->withErrors(['login' => __('auth.failed')])
+                ->onlyInput('login');
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('home'));
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
+}

@@ -1,37 +1,23 @@
 {
   "menu": [
     {
-      "url": "/",
-      "name": "Home",
-      "icon": "menu-icon icon-base ri ri-home-smile-line",
-      "slug": "pages-home"
+      "url": "/business",
+      "name": "Business",
+      "icon": "menu-icon icon-base ri ri-briefcase-line",
+      "slug": "business"
     },
     {
-      "url": "/page-2",
-      "icon": "menu-icon icon-base ri ri-file-line",
-      "name": "Page 2",
-      "slug": "pages-page-2"
-    },
-    {
-      "url": "/pages/misc-error",
-      "name": "Error",
-      "icon": "menu-icon icon-base ri ri-alert-line",
-      "slug": "pages-misc-error",
+      "url": "/admin",
+      "name": "Admin",
+      "icon": "menu-icon icon-base ri ri-admin-line",
+      "slug": "admin",
       "target": "_blank"
     },
     {
-      "url": "/auth/login-basic",
-      "name": "Login",
-      "icon": "menu-icon icon-base ri ri-logout-box-r-line",
-      "slug": "auth-login-basic",
-      "target": "_blank"
-    },
-    {
-      "url": "/auth/register-basic",
-      "name": "Register",
+      "url": "/profile",
       "icon": "menu-icon icon-base ri ri-account-circle-line",
-      "slug": "auth-register-basic",
-      "target": "_blank"
+      "name": "Profile",
+      "slug": "profile"
     }
   ]
 }
