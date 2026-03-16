@@ -51,6 +51,11 @@ Route::prefix('business')->name('business.')->middleware('auth')->group(function
     Route::post('/store', [businessController::class, 'store'])->name('store');
 });
 
+Route::prefix('fnb/{fnbId}')->name('fnb.')->middleware('auth')->group(function () {
+    Route::get('/', [businessController::class, 'index'])->name('index');
+    Route::post('/store', [businessController::class, 'store'])->name('store');
+});
+
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::redirect('/', '/admin/dashboard');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
