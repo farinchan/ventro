@@ -90,6 +90,32 @@
       </ul>
     </li>
 
+    <li class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon icon-base ri ri-user-3-line"></i>
+        <div>Absensi</div>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Data Staff</div>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Shift</div>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Daftar Kehadiran</div>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
     <li class="menu-header small mt-5">
       <span class="menu-header-text">{{ __('Outlet') }}</span>
     </li>

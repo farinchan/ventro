@@ -24,6 +24,7 @@ return new class extends Migration
       $table->decimal('discount', 10, 2)->default(0);
       $table->decimal('tax', 10, 2)->default(0);
       $table->decimal('grand_total', 10, 2);
+      $table->foreignId('fnb_sale_mode_outlet_id')->nullable()->constrained('fnb_sale_mode_outlets')->onDelete('set null');
       $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
       $table->timestamps();
       $table->softDeletes();
@@ -31,6 +32,7 @@ return new class extends Migration
       $table->index('fnb_outlet_id');
       $table->index('invoice_number');
       $table->index('status');
+      $table->index('fnb_sale_mode_outlet_id');
     });
   }
 
