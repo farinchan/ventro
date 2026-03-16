@@ -32,6 +32,9 @@
           ? 'container-xxl'
           : 'container-fluid';
   $useAdminVerticalMenu = ($configData['verticalMenu'] ?? 'default') === 'admin' || request()->routeIs('admin.*');
+  $useFnbVerticalMenu = ($configData['verticalMenu'] ?? 'default') === 'fnb' || request()->routeIs('fnb.*');
+  $useRetailVerticalMenu = ($configData['verticalMenu'] ?? 'default') === 'retail' || request()->routeIs('retail.*');
+  $useLaundryVerticalMenu = ($configData['verticalMenu'] ?? 'default') === 'laundry' || request()->routeIs('laundry.*');
 
 @endphp
 
@@ -42,6 +45,12 @@
       @if ($isMenu)
         @if ($useAdminVerticalMenu)
           @include('layouts/sections/menu/adminVerticalMenu')
+        @elseif ($useFnbVerticalMenu)
+          @include('layouts/sections/menu/fnbVerticalMenu')
+        @elseif ($useRetailVerticalMenu)
+          @include('layouts/sections/menu/retailVerticalMenu')
+        @elseif ($useLaundryVerticalMenu)
+          @include('layouts/sections/menu/laundryVerticalMenu')
         @else
           @include('layouts/sections/menu/verticalMenu')
         @endif

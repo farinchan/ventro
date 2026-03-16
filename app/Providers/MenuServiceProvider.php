@@ -21,6 +21,12 @@ class MenuServiceProvider extends ServiceProvider
     {
         $adminVerticalMenuJson = file_get_contents(base_path('resources/menu/adminVerticalMenu.json'));
         $adminVerticalMenuData = json_decode($adminVerticalMenuJson);
+        $fnbVerticalMenuJson = file_get_contents(base_path('resources/menu/fnbVerticalMenu.json'));
+        $fnbVerticalMenuData = json_decode($fnbVerticalMenuJson);
+        $retailVerticalMenuJson = file_get_contents(base_path('resources/menu/retailVerticalMenu.json'));
+        $retailVerticalMenuData = json_decode($retailVerticalMenuJson);
+        $laundryVerticalMenuJson = file_get_contents(base_path('resources/menu/laundryVerticalMenu.json'));
+        $laundryVerticalMenuData = json_decode($laundryVerticalMenuJson);
         $verticalMenuJson = file_get_contents(base_path('resources/menu/verticalMenu.json'));
         $verticalMenuData = json_decode($verticalMenuJson);
         $horizontalMenuJson = file_get_contents(base_path('resources/menu/horizontalMenu.json'));
@@ -29,6 +35,9 @@ class MenuServiceProvider extends ServiceProvider
         // Share all menu data to all views.
         $this->app->make('view')->share('menuData', [
             'adminVerticalMenu' => $adminVerticalMenuData,
+            'fnbVerticalMenu' => $fnbVerticalMenuData,
+            'retailVerticalMenu' => $retailVerticalMenuData,
+            'laundryVerticalMenu' => $laundryVerticalMenuData,
             'verticalMenu' => $verticalMenuData,
             'horizontalMenu' => $horizontalMenuData,
         ]);

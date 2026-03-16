@@ -1,6 +1,7 @@
 @php
   use Illuminate\Support\Facades\Route;
   $configData = Helper::appClasses();
+  $fnbSlug = request()->route('fnbSlug');
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu"
@@ -31,7 +32,7 @@
   <div class="menu-inner-shadow"></div>
 
   <ul class="menu-inner py-1">
-    @foreach ($menuData['adminVerticalMenu']->menu as $menu)
+    @foreach ($menuData['fnbVerticalMenu']->menu as $menu)
       {{-- adding active and open class if child is active --}}
 
       {{-- menu headers --}}
@@ -64,7 +65,7 @@
 
         {{-- main menu --}}
         <li class="menu-item {{ $activeClass }}">
-          <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}"
+          <a href="{{ isset($menu->url) ? url('/fnb/' . $fnbSlug . $menu->url) : 'javascript:void(0);' }}"
             class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}"
             @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
             @isset($menu->icon)
@@ -78,7 +79,7 @@
 
           {{-- submenu --}}
           @isset($menu->submenu)
-            @include('layouts.sections.menu.submenu-admin', ['menu' => $menu->submenu])
+            @include('layouts.sections.menu.submenu-fnb', ['menu' => $menu->submenu])
           @endisset
         </li>
       @endif
