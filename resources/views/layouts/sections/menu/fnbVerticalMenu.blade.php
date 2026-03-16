@@ -2,6 +2,7 @@
   use Illuminate\Support\Facades\Route;
   $configData = Helper::appClasses();
   $fnbSlug = request()->route('fnbSlug');
+  $fnbBusiness = App\Models\FnbBusiness::where('slug', $fnbSlug)->first();
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu"
@@ -32,58 +33,114 @@
   <div class="menu-inner-shadow"></div>
 
   <ul class="menu-inner py-1">
-    @foreach ($menuData['fnbVerticalMenu']->menu as $menu)
-      {{-- adding active and open class if child is active --}}
 
-      {{-- menu headers --}}
-      @if (isset($menu->menuHeader))
-        <li class="menu-header small mt-5">
-          <span class="menu-header-text">{{ __($menu->menuHeader) }}</span>
-        </li>
-      @else
-        {{-- active menu method --}}
-        @php
-          $activeClass = null;
-          $currentRouteName = Route::currentRouteName();
 
-          if ($currentRouteName === $menu->slug) {
-              $activeClass = 'active';
-          } elseif (isset($menu->submenu)) {
-              if (gettype($menu->slug) === 'array') {
-                  foreach ($menu->slug as $slug) {
-                      if (str_contains($currentRouteName, $slug) and strpos($currentRouteName, $slug) === 0) {
-                          $activeClass = 'active open';
-                      }
-                  }
-              } else {
-                  if (str_contains($currentRouteName, $menu->slug) and strpos($currentRouteName, $menu->slug) === 0) {
-                      $activeClass = 'active open';
-                  }
-              }
-          }
-        @endphp
+    <li class="menu-item {{ request()->routeIs('fnb.dashboard.*') ? 'active' : null }}">
+      <a href="{{ route('fnb.dashboard.index', $fnbSlug) }}" class="menu-link">
+        <i class="menu-icon icon-base ri ri-dashboard-line"></i>
+        <div>{{ __('Dashboard') }}</div>
+      </a>
+    </li>
 
-        {{-- main menu --}}
-        <li class="menu-item {{ $activeClass }}">
-          <a href="{{ isset($menu->url) ? url('/fnb/' . $fnbSlug . $menu->url) : 'javascript:void(0);' }}"
-            class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}"
-            @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
-            @isset($menu->icon)
-              <i class="{{ $menu->icon }}"></i>
-            @endisset
-            <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
-            @isset($menu->badge)
-              <div class="badge bg-{{ $menu->badge[0] }} rounded-pill ms-auto">{{ $menu->badge[1] }}</div>
-            @endisset
+    <li class="menu-item {{ request()->routeIs('fnb.menu.*') ? 'active' : null }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon icon-base ri ri-menu-add-fill"></i>
+        <div>Menu Management</div>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('fnb.menu.category.*') ? 'active' : null }}">
+          <a href="{{ url('/fnb/' . $fnbSlug . '/product-category') }}" class="menu-link">
+            <div>{{ __('Category') }}</div>
           </a>
-
-          {{-- submenu --}}
-          @isset($menu->submenu)
-            @include('layouts.sections.menu.submenu-fnb', ['menu' => $menu->submenu])
-          @endisset
         </li>
-      @endif
+        <li class="menu-item {{ request()->routeIs('fnb.menu.product.*') ? 'active' : null }}">
+          <a href="{{ url('/fnb/' . $fnbSlug . '/product') }}" class="menu-link">
+            <div>{{ __('Product') }}</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="menu-item {{ request()->routeIs('fnb.coupon.*') ? 'active' : null }}">
+      <a href="{{ url('/fnb/' . $fnbSlug . '/coupon') }}" class="menu-link">
+        <i class="menu-icon icon-base ri ri-percent-line"></i>
+        <div>{{ __('Coupon') }}</div>
+      </a>
+    </li>
+
+    <li class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon icon-base ri ri-bank-card-line"></i>
+        <div>Payment</div>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item ">
+          <a href="{" class="menu-link">
+            <div>Payment method</div>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Tax</div>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+    <li class="menu-header small mt-5">
+      <span class="menu-header-text">{{ __('Outlet') }}</span>
+    </li>
+
+    @php
+      $outlets = App\Models\FnbOutlet::where('fnb_business_id', $fnbBusiness->id)->get();
+    @endphp
+
+    <li class="menu-item {{ request()->routeIs('fnb.outlet.*') ? 'active' : null }}">
+      <a href="{{ route('fnb.outlet.create', $fnbSlug) }}" class="menu-link">
+        <i class="menu-icon icon-base ri ri-add-circle-line"></i>
+        <div>Create Outlet</div>
+      </a>
+    </li>
+    @foreach ($outlets as $outlet)
+    <li class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon icon-base ri ri-store-3-line"></i>
+        <div>{{ $outlet->name }}</div>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item ">
+          <a href="{" class="menu-link">
+            <div>Table</div>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Transaction</div>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Staff</div>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Setting</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
     @endforeach
+
+    <li class="menu-header small mt-5">
+      <span class="menu-header-text">{{ __('Laporan') }}</span>
+    </li>
   </ul>
 
 </aside>

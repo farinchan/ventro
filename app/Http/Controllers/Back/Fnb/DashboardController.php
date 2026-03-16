@@ -7,17 +7,19 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-  protected $fnbSlug;
+    protected $fnbSlug;
 
-  public function __construct(Request $request)
-  {
-    $this->fnbSlug = $request->route('fnbSlug');
-  }
+    public function __construct(Request $request)
+    {
+        $this->fnbSlug = $request->route('fnbSlug');
+    }
 
     public function index($fnbSlug)
     {
-      $data = [
-      ];
+        $data = [
+
+        ];
+
         return view('content.back.fnb.dashboard.index', $data);
     }
 }

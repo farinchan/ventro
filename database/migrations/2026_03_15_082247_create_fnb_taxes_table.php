@@ -17,6 +17,7 @@ return new class extends Migration
       $table->string('name');
       $table->decimal('rate', 5, 2);
       $table->timestamps();
+      $table->softDeletes();
 
       $table->index('fnb_business_id');
       $table->index('name');

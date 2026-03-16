@@ -18,6 +18,7 @@ return new class extends Migration
       $table->text('description')->nullable();
       $table->enum('type', ['cash', 'card', 'mobile_payment', 'other']);
       $table->timestamps();
+      $table->softDeletes();
 
       $table->index('fnb_business_id');
       $table->index('name');

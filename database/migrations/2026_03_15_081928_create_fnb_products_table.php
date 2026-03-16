@@ -19,6 +19,7 @@ return new class extends Migration
       $table->string('name');
       $table->text('description')->nullable();
       $table->timestamps();
+      $table->softDeletes();
 
       $table->index('fnb_business_id');
       $table->index('fnb_product_category_id');

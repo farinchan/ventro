@@ -24,6 +24,7 @@ return new class extends Migration
       $table->dateTime('valid_until')->nullable();
       $table->boolean('is_active')->default(true);
       $table->timestamps();
+      $table->softDeletes();
 
       $table->index('fnb_business_id');
       $table->index('code');

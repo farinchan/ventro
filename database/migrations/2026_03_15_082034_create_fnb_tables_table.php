@@ -19,6 +19,7 @@ return new class extends Migration
       $table->enum('status', ['available', 'occupied', 'reserved'])->default('available');
       $table->integer('capacity')->default(4);
       $table->timestamps();
+      $table->softDeletes();
 
       $table->index('fnb_outlet_id');
       $table->index('name');

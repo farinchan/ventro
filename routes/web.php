@@ -4,15 +4,14 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Back\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Back\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Back\businessController;
+use App\Http\Controllers\Back\Fnb\DashboardController as FnbDashboardController;
+use App\Http\Controllers\Back\Fnb\OutletController as FnbOutletController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\language\LanguageController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Back\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Back\Admin\UserController as AdminUserController;
-
-use App\Http\Controllers\Back\Fnb\DashboardController as FnbDashboardController;
 
 // Main Page Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -57,6 +56,14 @@ Route::prefix('business')->name('business.')->middleware('auth')->group(function
 Route::prefix('fnb/{fnbSlug}')->name('fnb.')->middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [FnbDashboardController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('outlet')->name('outlet.')->group(function () {
+        Route::get('/create', [FnbOutletController::class, 'create'])->name('create');
+        Route::post('/store', [FnbOutletController::class, 'store'])->name('store');
+
+        Route::get('/{id}/edit', [FnbOutletController::class, 'edit'])->name('edit');
+        Route::get('/{id}', [FnbOutletController::class, 'show'])->name('show');
     });
 });
 
