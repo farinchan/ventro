@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
 
-              $table->index('fnb_business_id');
-              $table->index('name');
+            $table->index('fnb_business_id');
+            $table->index('name');
         });
     }
 

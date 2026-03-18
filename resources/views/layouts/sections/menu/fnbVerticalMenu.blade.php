@@ -50,13 +50,18 @@
 
       <ul class="menu-sub">
         <li class="menu-item {{ request()->routeIs('fnb.menu.category.*') ? 'active' : null }}">
-          <a href="{{ url('/fnb/' . $fnbSlug . '/product-category') }}" class="menu-link">
+          <a href="{{ route('fnb.menu.category.index', $fnbSlug) }}" class="menu-link">
             <div>{{ __('Category') }}</div>
           </a>
         </li>
         <li class="menu-item {{ request()->routeIs('fnb.menu.product.*') ? 'active' : null }}">
           <a href="{{ url('/fnb/' . $fnbSlug . '/product') }}" class="menu-link">
             <div>{{ __('Product') }}</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('fnb.menu.product.*') ? 'active' : null }}">
+          <a href="{{ url('/fnb/' . $fnbSlug . '/product') }}" class="menu-link">
+            <div>Sales Mode</div>
           </a>
         </li>
       </ul>
@@ -69,7 +74,8 @@
       </a>
     </li>
 
-    <li class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
+    <li
+      class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon icon-base ri ri-bank-card-line"></i>
         <div>Payment</div>
@@ -90,7 +96,8 @@
       </ul>
     </li>
 
-    <li class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
+    <li
+      class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon icon-base ri ri-user-3-line"></i>
         <div>Absensi</div>
@@ -116,6 +123,8 @@
       </ul>
     </li>
 
+
+
     <li class="menu-header small mt-5">
       <span class="menu-header-text">{{ __('Outlet') }}</span>
     </li>
@@ -131,42 +140,88 @@
       </a>
     </li>
     @foreach ($outlets as $outlet)
-    <li class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
+      <li
+        class="menu-item {{ request()->routeIs('fnb.outlet.show') && request()->route('id') == $outlet->id ? 'active' : null }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon icon-base ri ri-store-3-line"></i>
+          <div>{{ $outlet->name }}</div>
+        </a>
+
+        <ul class="menu-sub">
+          <li class="menu-item ">
+            <a href="{" class="menu-link">
+              <div>Table</div>
+            </a>
+          </li>
+          <li class="menu-item ">
+            <a href="" class="menu-link">
+              <div>Transaction</div>
+            </a>
+          </li>
+          <li class="menu-item ">
+            <a href="" class="menu-link">
+              <div>Staff</div>
+            </a>
+          </li>
+          <li class="menu-item ">
+            <a href="" class="menu-link">
+              <div>Setting</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+    @endforeach
+
+    <li class="menu-header small mt-5">
+      <span class="menu-header-text">Settings</span>
+    </li>
+
+    <li class="menu-item ">
+      <a href="javascript:void(0);" class="menu-link">
+        <i class="menu-icon icon-base ri ri-settings-line"></i>
+        <div>Business setting</div>
+      </a>
+    </li>
+
+    <li class="menu-item ">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon icon-base ri ri-store-3-line"></i>
-        <div>{{ $outlet->name }}</div>
+        <i class="menu-icon icon-base ri ri-notification-2-line"></i>
+        <div>Notification Setting</div>
       </a>
 
       <ul class="menu-sub">
         <li class="menu-item ">
-          <a href="{" class="menu-link">
-            <div>Table</div>
+          <a href="" class="menu-link">
+            <div>SMTP Mail</div>
           </a>
         </li>
         <li class="menu-item ">
           <a href="" class="menu-link">
-            <div>Transaction</div>
+            <div>WA API - Chatery</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item ">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon icon-base ri ri-link"></i>
+        <div>Integration</div>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item ">
+          <a href="" class="menu-link">
+            <div>Payment Gateway (Coming Soon)</div>
           </a>
         </li>
         <li class="menu-item ">
           <a href="" class="menu-link">
-            <div>Staff</div>
-          </a>
-        </li>
-        <li class="menu-item ">
-          <a href="" class="menu-link">
-            <div>Setting</div>
+            <div>Delivery Platform (Coming Soon)</div>
           </a>
         </li>
       </ul>
     </li>
 
-
-    @endforeach
-
-    <li class="menu-header small mt-5">
-      <span class="menu-header-text">{{ __('Laporan') }}</span>
-    </li>
   </ul>
 
 </aside>

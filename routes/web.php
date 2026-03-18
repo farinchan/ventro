@@ -8,6 +8,7 @@ use App\Http\Controllers\Back\Admin\DashboardController as AdminDashboardControl
 use App\Http\Controllers\Back\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Back\businessController;
 use App\Http\Controllers\Back\Fnb\DashboardController as FnbDashboardController;
+use App\Http\Controllers\Back\Fnb\MenuManagementController;
 use App\Http\Controllers\Back\Fnb\OutletController as FnbOutletController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\language\LanguageController;
@@ -56,6 +57,26 @@ Route::prefix('business')->name('business.')->middleware('auth')->group(function
 Route::prefix('fnb/{fnbSlug}')->name('fnb.')->middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [FnbDashboardController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('menu')->name('menu.')->group(function () {
+        Route::prefix('category')->name('category.')->group(function () {
+            Route::get('/', [MenuManagementController::class, 'category'])->name('index');
+            Route::post('/store', [MenuManagementController::class, 'categoryStore'])->name('store');
+            Route::post('/update', [MenuManagementController::class, 'categoryUpdate'])->name('update');
+            Route::post('/delete', [MenuManagementController::class, 'categoryDelete'])->name('delete');
+        });
+
+        Route::prefix('product')->name('product.')->group(function () {
+            Route::get('/', [MenuManagementController::class, 'product'])->name('index');
+            Route::post('/store', [MenuManagementController::class, 'productStore'])->name('store');
+            Route::post('/update', [MenuManagementController::class, 'productUpdate'])->name('update');
+            Route::post('/delete', [MenuManagementController::class, 'productDelete'])->name('delete');
+        });
+
+        Route::prefix('product/sale-mode')->name('product.sales.')->group(function () {
+            Route::get('/', [MenuManagementController::class, 'sales'])->name('index');
+        });
     });
 
     Route::prefix('outlet')->name('outlet.')->group(function () {
