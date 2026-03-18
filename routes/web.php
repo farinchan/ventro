@@ -63,15 +63,15 @@ Route::prefix('fnb/{fnbSlug}')->name('fnb.')->middleware('auth')->group(function
         Route::prefix('category')->name('category.')->group(function () {
             Route::get('/', [MenuManagementController::class, 'category'])->name('index');
             Route::post('/store', [MenuManagementController::class, 'categoryStore'])->name('store');
-            Route::post('/update', [MenuManagementController::class, 'categoryUpdate'])->name('update');
-            Route::post('/delete', [MenuManagementController::class, 'categoryDelete'])->name('delete');
+            Route::put('/update', [MenuManagementController::class, 'categoryUpdate'])->name('update');
+            Route::delete('/destroy', [MenuManagementController::class, 'categoryDestroy'])->name('destroy');
         });
 
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('/', [MenuManagementController::class, 'product'])->name('index');
             Route::post('/store', [MenuManagementController::class, 'productStore'])->name('store');
-            Route::post('/update', [MenuManagementController::class, 'productUpdate'])->name('update');
-            Route::post('/delete', [MenuManagementController::class, 'productDelete'])->name('delete');
+            Route::put('/update', [MenuManagementController::class, 'productUpdate'])->name('update');
+            Route::delete('/destroy', [MenuManagementController::class, 'productDestroy'])->name('destroy');
         });
 
         Route::prefix('product/sale-mode')->name('product.sales.')->group(function () {

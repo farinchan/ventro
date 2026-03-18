@@ -93,7 +93,7 @@ class MenuManagementController extends Controller
         return redirect()->back()->with('success', 'Category updated successfully!');
     }
 
-    public function categoryDelete(Request $request): RedirectResponse
+    public function categoryDestroy(Request $request): RedirectResponse
     {
         $business = $this->resolveBusinessOrFail();
 

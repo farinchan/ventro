@@ -88,6 +88,7 @@
                       <div class="offcanvas-body border-top">
                         <form class="pt-0" method="POST"
                           action="{{ route('fnb.menu.category.update', ['fnbSlug' => $fnbSlug]) }}">
+                          @method('PUT')
                           @csrf
                           <input type="hidden" name="id" value="{{ $category->id }}" />
 
@@ -130,23 +131,28 @@
                     <div class="modal fade" id="deleteCategoryModal{{ $category->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
                       aria-hidden="true">
                       <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            </button>
+                        <form action="{{ route('fnb.menu.category.destroy', $fnbSlug) }}" method="post">
+                          @csrf
+                          @method('DELETE')
+                          <input type="hidden" name="id" value="{{ $category->id }}">x
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                              </button>
+                            </div>
+                            <div class="modal-body ">
+                              <p>Are you sure want to delete category <strong>{{ $category->name }}</strong>?</p>
+                              <p class="text-danger"><small><strong>WARNING!</strong> This action cannot be undone.</small>
+                              </p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
                           </div>
-                          <div class="modal-body ">
-                            <p>Are you sure want to delete category <strong>{{ $category->name }}</strong>?</p>
-                            <p class="text-danger"><small><strong>WARNING!</strong> This action cannot be undone.</small>
-                            </p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary"
-                              data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger">Delete</button>
-                          </div>
-                        </div>
+                        </form>
                       </div>
                     </div>
 
