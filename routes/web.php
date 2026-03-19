@@ -69,13 +69,15 @@ Route::prefix('fnb/{fnbSlug}')->name('fnb.')->middleware('auth')->group(function
 
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('/', [MenuManagementController::class, 'product'])->name('index');
+            Route::get('/create', [MenuManagementController::class, 'productCreate'])->name('create');
+            Route::get('/{id}/edit', [MenuManagementController::class, 'productEdit'])->name('edit');
             Route::post('/store', [MenuManagementController::class, 'productStore'])->name('store');
             Route::put('/update', [MenuManagementController::class, 'productUpdate'])->name('update');
             Route::delete('/destroy', [MenuManagementController::class, 'productDestroy'])->name('destroy');
         });
 
-        Route::prefix('product/sale-mode')->name('product.sales.')->group(function () {
-            Route::get('/', [MenuManagementController::class, 'sales'])->name('index');
+        Route::prefix('product/sale-mode')->name('sale-mode.')->group(function () {
+            Route::get('/', [MenuManagementController::class, 'saleMode'])->name('index');
         });
     });
 

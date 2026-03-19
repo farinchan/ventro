@@ -55,12 +55,12 @@
           </a>
         </li>
         <li class="menu-item {{ request()->routeIs('fnb.menu.product.*') ? 'active' : null }}">
-          <a href="{{ url('/fnb/' . $fnbSlug . '/product') }}" class="menu-link">
+          <a href="{{ route('fnb.menu.product.index', $fnbSlug) }}" class="menu-link">
             <div>{{ __('Product') }}</div>
           </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('fnb.menu.product.*') ? 'active' : null }}">
-          <a href="{{ url('/fnb/' . $fnbSlug . '/product') }}" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('fnb.menu.sale-mode.*') ? 'active' : null }}">
+          <a href="{{ route('fnb.menu.sale-mode.index', $fnbSlug) }}" class="menu-link">
             <div>Sales Mode</div>
           </a>
         </li>

@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Back\Fnb;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Back\Fnb\DeleteProductRequest;
+use App\Http\Requests\Back\Fnb\StoreProductRequest;
+use App\Http\Requests\Back\Fnb\UpdateProductRequest;
 use App\Models\FnbBusiness;
+use App\Models\FnbProduct;
 use App\Models\FnbProductCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use Illuminate\View\View;
 
 class MenuManagementController extends Controller
 {
@@ -111,29 +115,168 @@ class MenuManagementController extends Controller
         return redirect()->back()->with('success', 'Category deleted successfully!');
     }
 
-    public function product(): RedirectResponse
+    public function product()
     {
-        return redirect()->back()->with('info', 'Product page is not implemented yet.');
+        $data = [
+            'fnbSlug' => $this->fnbSlug,
+            'fnb' => $this->fnb,
+            'products' => FnbProduct::query()
+                ->where('fnb_business_id', $this->fnb?->id)
+                ->with(['category', 'variants'])
+                ->latest()
+                ->get(),
+        ];
+
+        // return response()->json($data);
+        return view('content.back.fnb.menu.product', $data);
     }
 
-    public function productStore(): RedirectResponse
+    public function productCreate()
     {
-        return redirect()->back();
+        $data = [
+            'fnbSlug' => $this->fnbSlug,
+            'fnb' => $this->fnb,
+            'categories' => FnbProductCategory::query()
+                ->where('fnb_business_id', $this->fnb?->id)
+                ->latest()
+                ->get(),
+        ];
+
+        return view('content.back.fnb.menu.product-create', $data);
     }
 
-    public function productUpdate(): RedirectResponse
+    public function productEdit(string $slug, int $id)
     {
-        return redirect()->back();
+        $business = $this->resolveBusinessOrFail();
+
+        $data = [
+            'fnbSlug' => $this->fnbSlug,
+            'fnb' => $this->fnb,
+            'categories' => FnbProductCategory::query()
+                ->where('fnb_business_id', $business->id)
+                ->latest()
+                ->get(),
+            'product' => FnbProduct::query()
+                ->where('id', $id)
+                ->where('fnb_business_id', $business->id)
+                ->with('variants')
+                ->first(),
+        ];
+
+        // dd($id);
+
+        return view('content.back.fnb.menu.product-edit', $data);
     }
 
-    public function productDelete(): RedirectResponse
+    public function productStore(StoreProductRequest $request): RedirectResponse
     {
-        return redirect()->back();
+        $business = $this->resolveBusinessOrFail();
+        $validated = $request->validated();
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
+
+        $product = FnbProduct::query()->create([
+            'fnb_business_id' => $business->id,
+            'fnb_product_category_id' => $validated['fnb_product_category_id'] ?? null,
+            'image' => $imagePath,
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? null,
+            'status' => $validated['status'],
+        ]);
+
+        $product->variants()->createMany(
+            collect($validated['variants'])
+                ->map(fn (array $variant) => [
+                    'name' => $variant['name'],
+                    'price' => $variant['price'],
+                ])
+                ->values()
+                ->all(),
+        );
+
+        return redirect()
+            ->route('fnb.menu.product.index', ['fnbSlug' => $this->fnbSlug])
+            ->with('success', 'Product created successfully!');
     }
 
-    public function sales(): RedirectResponse
+    public function productUpdate(UpdateProductRequest $request): RedirectResponse
     {
-        return redirect()->back()->with('info', 'Sales mode page is not implemented yet.');
+        $business = $this->resolveBusinessOrFail();
+        $validated = $request->validated();
+
+        $product = FnbProduct::query()
+            ->where('id', $validated['id'])
+            ->where('fnb_business_id', $business->id)
+            ->firstOrFail();
+
+        $imagePath = $product->getRawOriginal('image');
+
+        if ($request->hasFile('image')) {
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
+
+        $product->update([
+            'fnb_product_category_id' => $validated['fnb_product_category_id'] ?? null,
+            'image' => $imagePath,
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? null,
+            'status' => $validated['status'],
+        ]);
+
+        $product->variants()->delete();
+        $product->variants()->createMany(
+            collect($validated['variants'])
+                ->map(fn (array $variant) => [
+                    'name' => $variant['name'],
+                    'price' => $variant['price'],
+                ])
+                ->values()
+                ->all(),
+        );
+
+        return redirect()
+            ->route('fnb.menu.product.index', ['fnbSlug' => $this->fnbSlug])
+            ->with('success', 'Product updated successfully!');
+    }
+
+    public function productDestroy(DeleteProductRequest $request): RedirectResponse
+    {
+        $business = $this->resolveBusinessOrFail();
+        $validated = $request->validated();
+
+        $product = FnbProduct::query()
+            ->where('id', $validated['id'])
+            ->where('fnb_business_id', $business->id)
+            ->firstOrFail();
+
+        $imagePath = $product->getRawOriginal('image');
+
+        if ($imagePath) {
+            Storage::disk('public')->delete($imagePath);
+        }
+
+        $product->delete();
+
+        return redirect()
+            ->route('fnb.menu.product.index', ['fnbSlug' => $this->fnbSlug])
+            ->with('success', 'Product deleted successfully!');
+    }
+
+    public function saleMode()
+    {
+        $data = [
+            'fnbSlug' => $this->fnbSlug,
+            'fnb' => $this->fnb,
+        ];
+
+        return view('content.back.fnb.menu.sale-mode', $data);
     }
 
     protected function resolveBusiness(): ?FnbBusiness

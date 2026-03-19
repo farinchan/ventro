@@ -58,7 +58,7 @@
                     <div class="d-flex flex-column justify-content-center">
                       <span class="text-heading text-wrap fw-medium">{{ $category->name }}</span>
                       <span
-                        class="text-truncate mb-0 d-none d-sm-block"><small>{{ $category->description }}</small></span>
+                        class="text-truncate mb-0 d-none d-sm-block"><small>{{ \Illuminate\Support\Str::limit($category->description, 50) }}</small></span>
                     </div>
                   </div>
                 </td>
