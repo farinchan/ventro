@@ -13,16 +13,13 @@ return new class extends Migration
     {
         Schema::create('fnb_outlet_staff', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fnb_outlet_id')->constrained('fnb_outlets')->onDelete('cascade');
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('password');
-            $table->enum('role', ['cashier', 'manager', 'staff']);
+            $table->foreignId('fnb_outlet_id')->nullable()->constrained('fnb_outlets')->onDelete('set null');
+            $table->foreignId('fnb_business_user_id')->nullable()->constrained('fnb_business_users')->onDelete('set null');
             $table->timestamps();
             $table->softDeletes();
 
-              $table->index('fnb_outlet_id');
-              $table->index('username');
+            $table->index('fnb_outlet_id');
+            $table->index('fnb_business_user_id');
         });
     }
 
