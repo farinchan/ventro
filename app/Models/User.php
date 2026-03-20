@@ -4,16 +4,20 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -69,5 +73,24 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn ($value) => $value ? 'Active' : 'Inactive',
         );
+    }
+
+    public function fnbBusinessUsers(): HasMany
+    {
+        return $this->hasMany(FnbBusinessUser::class, 'user_id');
+    }
+
+    public function fnbOutletStaff()
+    {
+        return $this->hasManyThrough(FnbOutletStaff::class, FnbBusinessUser::class, 'user_id', 'fnb_business_user_id');
+    }
+
+    public function fnbOutlets(): Builder
+    {
+        return FnbOutlet::query()
+            ->whereIn(
+                'id',
+                $this->fnbOutletStaff()->select('fnb_outlet_id')
+            );
     }
 }

@@ -40,6 +40,11 @@ class FnbOutletStaff extends Authenticatable
         return $this->belongsTo(FnbBusinessUser::class, 'fnb_business_user_id');
     }
 
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'fnb_business_users', 'id', 'user_id', 'fnb_business_user_id', 'id');
+    }
+
     public function sales(): HasMany
     {
         return $this->hasMany(FnbSale::class, 'fnb_outlet_staff_id');

@@ -24,4 +24,9 @@ class FnbBusinessUser extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function outlets()
+    {
+        return $this->hasManyThrough(FnbOutlet::class, FnbBusiness::class, 'id', 'fnb_business_id', 'fnb_business_id', 'id');
+    }
 }

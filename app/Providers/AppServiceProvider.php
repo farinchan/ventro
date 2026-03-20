@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityRequirement;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Vite;
 
@@ -27,6 +31,17 @@ class AppServiceProvider extends ServiceProvider
                 ];
             }
             return [];
+        });
+
+        Scramble::configure()
+        ->withDocumentTransformers(function (OpenApi $openApi) {
+            $openApi->components->securitySchemes['bearer'] = SecurityScheme::http('bearer');
+            $openApi->components->securitySchemes['outlet'] = SecurityScheme::apiKey('header', 'X-Outlet-ID');
+
+            $openApi->security[] = new SecurityRequirement([
+                'bearer' => [],
+                'outlet' => [],
+            ]);
         });
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('fnb_sale_mode_outlets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fnb_sale_mode_id')->constrained('fnb_sale_modes')->onDelete('cascade');
-            $table->foreignId('fnb_outlet_id')->constrained('fnb_outlets')->onDelete('cascade');
+            $table->foreignUuid('fnb_outlet_id')->constrained('fnb_outlets')->onDelete('cascade');
             $table->timestamps();
 
             $table->unique(['fnb_sale_mode_id', 'fnb_outlet_id']);

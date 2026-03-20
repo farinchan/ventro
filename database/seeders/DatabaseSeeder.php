@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\FnbBusiness;
 use App\Models\FnbBusinessUser;
 use App\Models\FnbOutlet;
+use App\Models\FnbOutletStaff;
 use App\Models\FnbProduct;
 use App\Models\FnbProductCategory;
 use App\Models\FnbProductVariant;
@@ -70,14 +71,39 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+         FnbBusinessUser::create([
+            'fnb_business_id' => FnbBusiness::first()->id,
+            'user_id' => User::where('email', 'fajri@gariskode.com')->first()->id,
+        ]);
+
         FnbOutlet::create([
             'fnb_business_id' => FnbBusiness::first()->id,
-            'name' => 'KOPETA Tbk. - Outlet 1',
+            'name' => 'Outlet 1 - KOPETA Tbk.',
             'phone' => '021-12345678',
-            'email' => 'kopeta@ventro.id',
+            'email' => 'kopeta1@ventro.id',
             'address' => 'Jl. Merdeka No. 123, Jakarta',
             'latitude' => '-6.200000',
             'longitude' => '106.816666',
+        ]);
+
+        FnbOutletStaff::create([
+            'fnb_outlet_id' => FnbOutlet::first()->id,
+            'fnb_business_user_id' => FnbBusinessUser::first()->id,
+        ]);
+
+        $outlet2 = FnbOutlet::create([
+            'fnb_business_id' => FnbBusiness::first()->id,
+            'name' => 'Outlet 2 - KOPETA Tbk.',
+            'phone' => '021-12345678',
+            'email' => 'kopeta2@ventro.id',
+            'address' => 'Jl. Merdeka No. 123, Jakarta',
+            'latitude' => '-6.200000',
+            'longitude' => '106.816666',
+        ]);
+
+        FnbOutletStaff::create([
+            'fnb_outlet_id' => $outlet2->id,
+            'fnb_business_user_id' => FnbBusinessUser::first()->id,
         ]);
 
         FnbSaleMode::create([
@@ -92,10 +118,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Mode penjualan untuk pelanggan yang memesan makanan dan minuman untuk dibawa pulang.',
         ]);
 
-        FnbBusinessUser::create([
-            'fnb_business_id' => FnbBusiness::first()->id,
-            'user_id' => User::where('email', 'fajri@gariskode.com')->first()->id,
-        ]);
+
 
         FnbProductCategory::create([
             'fnb_business_id' => FnbBusiness::first()->id,
