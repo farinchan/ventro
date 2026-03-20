@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Fnb;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Fnb\ProductResource;
 use App\Models\FnbProduct;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class ProductController extends Controller
         $perPage = $request->input('per_page', 10);
         $categoryId = $request->input('category_id');
 
-         $query = FnbProduct::where('business_id', $request->attributes->get('business_id'));
+         $query = FnbProduct::where('fnb_business_id', $request->attributes->get('business_id'));
         $data = $query->when($keyword, function ($q) use ($keyword) {
             $q->where('name', 'like', "%$keyword%");
         })->when($categoryId, function ($q) use ($categoryId) {
@@ -54,7 +54,7 @@ class ProductController extends Controller
       public function show(Request $request, $id)
       {
         try {
-          $product = FnbProduct::where('business_id', $request->attributes->get('business_id'))->find($id);
+          $product = FnbProduct::where('fnb_business_id', $request->attributes->get('business_id'))->find($id);
           if (! $product) {
             return response()->json([
                 'status' => 'error',

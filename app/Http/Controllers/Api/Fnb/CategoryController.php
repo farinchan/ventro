@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
       try {
-        $data = FnbProductCategory::where('business_id', $request->attributes->get('business_id'))->get();
+        $data = FnbProductCategory::where('fnb_business_id', $request->attributes->get('business_id'))->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Categories retrieved successfully',
