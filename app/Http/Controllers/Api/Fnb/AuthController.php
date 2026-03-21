@@ -15,8 +15,9 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
         $validation = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'login' => 'required|string',
             'password' => 'required',
         ]);
 
@@ -27,7 +28,7 @@ class AuthController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->login)->orWhere('username', $request->login)->firstOrFail();
          if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'error',

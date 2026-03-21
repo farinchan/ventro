@@ -20,10 +20,10 @@ class FnbOutlet extends Model
         return $this->belongsTo(FnbBusiness::class, 'fnb_business_id');
     }
 
-    public function staff()
-    {
-        return $this->hasManyThrough(User::class, FnbOutletStaff::class, 'fnb_outlet_id', 'id', 'id', 'business_user_id');
-    }
+    public function outletStaff()
+{
+    return $this->hasMany(FnbOutletStaff::class, 'fnb_outlet_id');
+}
 
     public function customers()
     {

@@ -30,22 +30,26 @@ class OutletResource extends JsonResource
                 'slug' => $this->business->slug,
                 'domain' => $this->business->domain,
                 'description' => $this->business->description,
-                'license' => $this->business->license,
+                'license' => $this->business->license ? [
+                    'name'=> $this->business->license->name,
+                    'description' => $this->business->license->description,
+                    'max_transactions_per_day'=> $this->business->license->max_transactions_per_day,
+                    'max_users' => $this->business->license->max_users,
+                    'price' => $this->business->license->price,
+                ] : null,
                 'billing_cycle' => $this->business->billing_cycle,
                 'expiry_date' => $this->business->expiry_date,
             ] : null,
-            // 'staff' => $this->staff ? [
-            //     'id' => $this->staff->id,
-            //     'photo' => $this->staff->photo,
-            //     'username' => $this->staff->username,
-            //     'name' => $this->staff->name,
-            //     'email' => $this->staff->email,
-            //     'phone' => $this->staff->phone,
-            //     'role' => $this->staff->role,
-            //     'is_active' => $this->staff->is_active,
-            //     'created_at' => $this->staff->created_at,
-            //     'updated_at' => $this->staff->updated_at,
-            // ] : null,
+           'staff' => $this->outletStaff ? $this->outletStaff->pluck('businessUser.user')->filter()->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'photo' => $item->photo,
+                    'name' => $item->name,
+                    'username' => $item->username,
+                    'email' => $item->email,
+                    'phone' => $item->phone,
+                ];
+            })->values() : [],
         ];
     }
 }
