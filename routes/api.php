@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Fnb\AuthController;
 use App\Http\Controllers\Api\Fnb\CategoryController;
 use App\Http\Controllers\Api\Fnb\OutletController;
 use App\Http\Controllers\Api\Fnb\ProductController;
+use App\Http\Controllers\Api\Fnb\UtilityController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('fnb/login', [AuthController::class, 'login']);
@@ -23,4 +24,10 @@ Route::prefix('fnb')->middleware(['auth:sanctum', 'fnb.outlet'])->group(function
         Route::get('/', [ProductController::class, 'index']);
         Route::get('/{id}', [ProductController::class, 'show']);
     });
+
+    Route::prefix('utilities')->group(function () {
+        Route::get('/sale-mode', [UtilityController::class, 'saleMode']);
+        Route::get('/table', [UtilityController::class,'table']);
+    });
+
 });

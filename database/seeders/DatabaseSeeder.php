@@ -10,6 +10,7 @@ use App\Models\FnbProduct;
 use App\Models\FnbProductCategory;
 use App\Models\FnbProductVariant;
 use App\Models\FnbSaleMode;
+use App\Models\FnbSaleModeOutlet;
 use App\Models\FnbTable;
 use App\Models\license;
 use App\Models\User;
@@ -86,6 +87,8 @@ class DatabaseSeeder extends Seeder
             'longitude' => '106.816666',
         ]);
 
+
+
         FnbOutletStaff::create([
             'fnb_outlet_id' => FnbOutlet::first()->id,
             'fnb_business_user_id' => FnbBusinessUser::first()->id,
@@ -118,7 +121,17 @@ class DatabaseSeeder extends Seeder
             'description' => 'Mode penjualan untuk pelanggan yang memesan makanan dan minuman untuk dibawa pulang.',
         ]);
 
+        FnbSaleModeOutlet::create([
+            'fnb_outlet_id' => FnbOutlet::first()->id,
+            'fnb_sale_mode_id' => FnbSaleMode::firstWhere('name', 'Dine-in')->id,
+        ]);
 
+        FnbSaleModeOutlet::create([
+            'fnb_outlet_id' => FnbOutlet::first()->id,
+            'fnb_sale_mode_id' => FnbSaleMode::firstWhere('name', 'Takeaway')->id,
+        ]);
+
+        
 
         FnbProductCategory::create([
             'fnb_business_id' => FnbBusiness::first()->id,
