@@ -15,7 +15,6 @@ class ProductController extends Controller
 
       try {
           $keyword = $request->input('q');
-        $perPage = $request->input('per_page', 10);
         $categoryId = $request->input('category_id');
 
          $query = FnbProduct::where('fnb_business_id', $request->attributes->get('business_id'));
@@ -23,23 +22,14 @@ class ProductController extends Controller
             $q->where('name', 'like', "%$keyword%");
         })->when($categoryId, function ($q) use ($categoryId) {
             $q->where('category_id', $categoryId);
-        })->paginate($perPage);
+        })->get();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Products retrieved successfully',
             'meta' => [
               'query' => $keyword ,
-              'path' => $data->path(),
-                'current_page' => $data->currentPage(),
-                'last_page' => $data->lastPage(),
-                'per_page' => $data->perPage(),
-                'total' => $data->total(),
-                'from' => $data->firstItem(),
-                'to' => $data->lastItem(),
-                'hasNext' => $data->hasMorePages(),
-                'hasPrevious' => $data->currentPage() > 1,
-            ],
+              ],
             'data' => ProductResource::collection($data),
         ], Response::HTTP_OK);
       } catch (\Throwable $th) {

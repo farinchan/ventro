@@ -12,6 +12,10 @@ class FnbProductVariant extends Model
       'updated_at',
     ];
 
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
+
     public function product()
     {
         return $this->belongsTo(FnbProduct::class, 'fnb_product_id');
