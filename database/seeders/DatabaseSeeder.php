@@ -12,6 +12,8 @@ use App\Models\FnbProductVariant;
 use App\Models\FnbSaleMode;
 use App\Models\FnbSaleModeOutlet;
 use App\Models\FnbTable;
+use App\Models\FnbTax;
+use App\Models\FnbTaxOutlet;
 use App\Models\license;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -131,7 +133,7 @@ class DatabaseSeeder extends Seeder
             'fnb_sale_mode_id' => FnbSaleMode::firstWhere('name', 'Takeaway')->id,
         ]);
 
-        
+
 
         FnbProductCategory::create([
             'fnb_business_id' => FnbBusiness::first()->id,
@@ -151,6 +153,18 @@ class DatabaseSeeder extends Seeder
             'name' => 'Meja 2',
             'location' => 'Lantai 2',
             'capacity' => 2,
+        ]);
+
+        FnbTax::create([
+            'fnb_business_id' => FnbBusiness::first()->id,
+            'name' => 'PB1',
+            'description' => 'pajak restoran (makan & minum)',
+            'percent' => 10,
+        ]);
+
+        FnbTaxOutlet::create([
+            'fnb_outlet_id' => FnbOutlet::first()->id,
+            'fnb_tax_id' => FnbTax::first()->id,
         ]);
 
         FnbProductCategory::create([

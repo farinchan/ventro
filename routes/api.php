@@ -28,6 +28,7 @@ Route::prefix('fnb')->middleware(['auth:sanctum', 'fnb.outlet'])->group(function
     Route::prefix('utilities')->group(function () {
         Route::get('/sale-mode', [UtilityController::class, 'saleMode']);
         Route::get('/table', [UtilityController::class,'table']);
+        Route::get('/tax', [UtilityController::class,'tax']);
     });
 
 });

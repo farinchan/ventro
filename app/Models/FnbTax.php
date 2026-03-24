@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FnbTax extends Model
 {
-  use SoftDeletes;
       protected $guarded =  [
         'id',
         'created_at',
@@ -17,5 +15,15 @@ class FnbTax extends Model
       public function business()
       {
           return $this->belongsTo(FnbBusiness::class, 'fnb_business_id');
+      }
+
+      public function taxOutlets()
+      {
+          return $this->hasMany(FnbTaxOutlet::class, 'fnb_tax_id');
+      }
+
+      public function outlets()
+      {
+          return $this->belongsToMany(FnbOutlet::class, 'fnb_tax_outlets', 'fnb_tax_id', 'fnb_outlet_id');
       }
 }

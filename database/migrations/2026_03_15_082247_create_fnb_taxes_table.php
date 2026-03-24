@@ -15,9 +15,9 @@ return new class extends Migration
       $table->id();
       $table->foreignUuid('fnb_business_id')->constrained('fnb_businesses')->onDelete('cascade');
       $table->string('name');
-      $table->decimal('rate', 5, 2);
+      $table->text('description')->nullable();
+      $table->decimal('percent', 5, 2)->default(0);
       $table->timestamps();
-      $table->softDeletes();
 
       $table->index('fnb_business_id');
       $table->index('name');

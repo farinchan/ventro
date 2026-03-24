@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Fnb;
 use App\Http\Controllers\Controller;
 use App\Models\FnbSaleModeOutlet;
 use App\Models\FnbTable;
+use App\Models\FnbTaxOutlet;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -47,6 +48,29 @@ class UtilityController extends Controller
               'location' => $item->location,
               'status' => $item->status,
               'capacity' => $item->capacity,
+            ];
+           })
+        ], Response::HTTP_OK);
+      } catch (\Throwable $th) {
+        return response()->json([
+          'status' => 'error',
+          'message' => $th->getMessage()
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    public function tax(Request $request){
+      try {
+        $taxes = FnbTaxOutlet::with('tax')->where('fnb_outlet_id', $request->attributes->get('outlet_id'))->get();
+        return response()->json([
+           'status' => 'success',
+           'message' => 'Taxes retrieved successfully',
+           'data' => $taxes->map(function ($item) {
+            return [
+              'id' => $item->id,
+              'name' => $item->tax->name,
+              'description' => $item->tax->description,
+              'percent' => $item->tax->percent,
             ];
            })
         ], Response::HTTP_OK);
