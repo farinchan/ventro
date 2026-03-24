@@ -26,6 +26,7 @@ return new class extends Migration
       $table->timestamps();
       $table->softDeletes();
 
+      $table->unique(['fnb_business_id', 'code']);
       $table->index('fnb_business_id');
       $table->index('code');
       $table->index('is_active');

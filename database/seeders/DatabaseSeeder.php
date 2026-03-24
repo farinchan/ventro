@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\FnbBusiness;
 use App\Models\FnbBusinessUser;
+use App\Models\FnbCoupon;
 use App\Models\FnbOutlet;
 use App\Models\FnbOutletStaff;
 use App\Models\FnbProduct;
@@ -74,7 +75,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-         FnbBusinessUser::create([
+        FnbBusinessUser::create([
             'fnb_business_id' => FnbBusiness::first()->id,
             'user_id' => User::where('email', 'fajri@gariskode.com')->first()->id,
         ]);
@@ -88,8 +89,6 @@ class DatabaseSeeder extends Seeder
             'latitude' => '-6.200000',
             'longitude' => '106.816666',
         ]);
-
-
 
         FnbOutletStaff::create([
             'fnb_outlet_id' => FnbOutlet::first()->id,
@@ -133,12 +132,23 @@ class DatabaseSeeder extends Seeder
             'fnb_sale_mode_id' => FnbSaleMode::firstWhere('name', 'Takeaway')->id,
         ]);
 
-
-
         FnbProductCategory::create([
             'fnb_business_id' => FnbBusiness::first()->id,
             'name' => 'Coffee Specialties',
             'description' => 'Kategori ini mencakup berbagai jenis kopi spesial yang disajikan dengan metode penyeduhan yang unik dan bahan berkualitas tinggi, cocok untuk para pecinta kopi yang mencari pengalaman rasa yang berbeda.',
+        ]);
+
+        FnbCoupon::create([
+            'fnb_business_id' => FnbBusiness::first()->id,
+            'code' => 'KOPETA10',
+            'description' => 'Kupon diskon Rp 10.000 untuk pelanggan setia Kopeta',
+            'type' => 'fixed_amount',
+            'value' => 10000,
+            'usage_limit' => 100,
+            'used_count' => 0,
+            'valid_from' => now()->subDays(1),
+            'valid_until' => now()->addDays(30),
+            'is_active' => true,
         ]);
 
         FnbTable::create([

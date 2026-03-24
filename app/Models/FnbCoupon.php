@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FnbCoupon extends Model
 {
-  use SoftDeletes;
-    protected $guarded =  [
-      'id',
-      'created_at',
-      'updated_at',
+    use SoftDeletes;
+
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $casts = [
+        'valid_from' => 'datetime',
+        'valid_until' => 'datetime',
     ];
 
     public function business()
@@ -23,6 +29,4 @@ class FnbCoupon extends Model
     {
         return $this->hasMany(FnbSale::class, 'fnb_coupon_id');
     }
-
-
 }
