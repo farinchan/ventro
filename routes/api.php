@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Fnb\CategoryController;
 use App\Http\Controllers\Api\Fnb\CouponController;
 use App\Http\Controllers\Api\Fnb\OutletController;
 use App\Http\Controllers\Api\Fnb\ProductController;
+use App\Http\Controllers\Api\Fnb\TransactionController;
 use App\Http\Controllers\Api\Fnb\UtilityController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,11 @@ Route::prefix('fnb')->middleware(['auth:sanctum', 'fnb.outlet'])->group(function
         Route::get('/sale-mode', [UtilityController::class, 'saleMode']);
         Route::get('/table', [UtilityController::class, 'table']);
         Route::get('/tax', [UtilityController::class, 'tax']);
+    });
+
+    Route::prefix('transaction')->group(function () {
+        Route::post('/process', [TransactionController::class, 'process']);
+        Route::post('/{id}/send-invoice', [TransactionController::class, 'sendInvoice']);
     });
 
 });

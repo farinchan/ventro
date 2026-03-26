@@ -19,11 +19,11 @@ return new class extends Migration
             $table->foreignId('fnb_payment_method_id')->nullable()->constrained('fnb_payment_methods')->onDelete('set null');
             $table->foreignId('fnb_table_id')->nullable()->constrained('fnb_tables')->onDelete('set null');
             $table->foreignId('fnb_coupon_id')->nullable()->constrained('fnb_coupons')->onDelete('set null');
-            $table->string('invoice_number')->unique();
-            $table->decimal('total', 10, 2);
+            $table->string('invoice_number');
+            $table->decimal('subtotal', 10, 2);
             $table->decimal('discount', 10, 2)->default(0);
-            $table->decimal('tax', 10, 2)->default(0);
-            $table->decimal('grand_total', 10, 2);
+            $table->json('taxes')->nullable();
+            $table->decimal('total', 10, 2);
             $table->foreignId('fnb_sale_mode_outlet_id')->nullable()->constrained('fnb_sale_mode_outlets')->onDelete('set null');
             $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
             $table->timestamps();

@@ -6,11 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class FnbSale extends Model
 {
-     protected $guarded =  [
-      'id',
-      'created_at',
-      'updated_at',
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'taxes' => 'array',
+        ];
+    }
 
     public function outlet()
     {
@@ -20,6 +30,11 @@ class FnbSale extends Model
     public function staff()
     {
         return $this->belongsTo(FnbOutletStaff::class, 'fnb_outlet_staff_id');
+    }
+
+    public function costumer()
+    {
+        return $this->belongsTo(FnbCostumer::class, 'fnb_costumer_id');
     }
 
     public function items()

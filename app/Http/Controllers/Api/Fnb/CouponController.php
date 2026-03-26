@@ -45,6 +45,7 @@ class CouponController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $th->getMessage(),
+                'data' => null,
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,24 +58,28 @@ class CouponController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon tidak ditemukan',
+                    'data' => null,
                 ], Response::HTTP_NOT_FOUND);
             }
             if ($coupon->is_active == 0) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon tidak aktif',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
             if ($coupon->valid_from > now()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon belum berlaku',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
             if ($coupon->valid_until < now()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon sudah berakhir',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
 
@@ -82,12 +87,13 @@ class CouponController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon sudah mencapai batas penggunaan',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
 
             return response()->json([
                 'status' => 'success',
-                'message'=> 'Kupon berhasil ditemukan',
+                'message' => 'Kupon berhasil ditemukan',
                 'data' => [
                     'id' => $coupon->id,
                     'code' => $coupon->code,
@@ -105,6 +111,7 @@ class CouponController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $th->getMessage(),
+                'data' => null,
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -119,24 +126,28 @@ class CouponController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon tidak ditemukan',
+                    'data' => null,
                 ], Response::HTTP_NOT_FOUND);
             }
             if ($coupon->is_active == 0) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon tidak aktif',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
             if ($coupon->valid_from > now()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon belum berlaku',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
             if ($coupon->valid_until < now()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon sudah berakhir',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
 
@@ -144,6 +155,7 @@ class CouponController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kupon sudah mencapai batas penggunaan',
+                    'data' => null,
                 ], Response::HTTP_BAD_REQUEST);
             }
             DB::transaction(function () use ($coupon) {
@@ -154,11 +166,13 @@ class CouponController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Kupon berhasil ditukar',
+                'data' => null,
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 'error',
                 'message' => $th->getMessage(),
+                'data' => null,
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
