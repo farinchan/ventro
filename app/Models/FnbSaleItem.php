@@ -6,19 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class FnbSaleItem extends Model
 {
-      protected $guarded =  [
+    protected $guarded = [
         'id',
         'created_at',
         'updated_at',
-      ];
+    ];
 
-      public function sale()
-      {
-          return $this->belongsTo(FnbSale::class, 'fnb_sale_id');
-      }
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'unit_price' => 'decimal:2',
+            'total_price' => 'decimal:2',
+        ];
+    }
 
-      public function productVariant()
-      {
-          return $this->belongsTo(FnbProductVariant::class, 'fnb_product_variant_id');
-      }
+    public function sale()
+    {
+        return $this->belongsTo(FnbSale::class, 'fnb_sale_id');
+    }
+
+    public function productVariant()
+    {
+        return $this->belongsTo(FnbProductVariant::class, 'fnb_product_variant_id');
+    }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('fnb_outlet_id')->constrained('fnb_outlets')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('name');
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->timestamps();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Fnb;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Fnb\CouponResource;
 use App\Models\FnbCoupon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,20 +27,7 @@ class CouponController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Kupon berhasil ditemukan',
-                'data' => $coupons->map(function ($coupon) {
-                    return [
-                        'id' => $coupon->id,
-                        'code' => $coupon->code,
-                        'description' => $coupon->description,
-                        'type' => $coupon->type,
-                        'value' => $coupon->value,
-                        'usage_limit' => $coupon->usage_limit,
-                        'used_count' => $coupon->used_count,
-                        'valid_from' => $coupon->valid_from,
-                        'valid_until' => $coupon->valid_until,
-                        'is_active' => $coupon->is_active,
-                    ];
-                }),
+                'data' => CouponResource::collection($coupons),
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
@@ -94,18 +82,7 @@ class CouponController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Kupon berhasil ditemukan',
-                'data' => [
-                    'id' => $coupon->id,
-                    'code' => $coupon->code,
-                    'description' => $coupon->description,
-                    'type' => $coupon->type,
-                    'value' => $coupon->value,
-                    'usage_limit' => $coupon->usage_limit,
-                    'used_count' => $coupon->used_count,
-                    'valid_from' => $coupon->valid_from,
-                    'valid_until' => $coupon->valid_until,
-                    'is_active' => $coupon->is_active,
-                ],
+                'data' => CouponResource::make($coupon),
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([

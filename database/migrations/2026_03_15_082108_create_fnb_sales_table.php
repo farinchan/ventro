@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fnb_sales', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('fnb_outlet_id')->constrained('fnb_outlets')->onDelete('cascade');
             $table->foreignId('fnb_outlet_staff_id')->nullable()->constrained('fnb_outlet_staff')->onDelete('set null');
             $table->foreignId('fnb_costumer_id')->nullable()->constrained('fnb_costumers')->onDelete('set null');
-            $table->foreignId('fnb_payment_method_id')->nullable()->constrained('fnb_payment_methods')->onDelete('set null');
             $table->foreignId('fnb_table_id')->nullable()->constrained('fnb_tables')->onDelete('set null');
             $table->foreignId('fnb_coupon_id')->nullable()->constrained('fnb_coupons')->onDelete('set null');
             $table->string('invoice_number');
@@ -25,6 +24,10 @@ return new class extends Migration
             $table->json('taxes')->nullable();
             $table->decimal('total', 10, 2);
             $table->foreignId('fnb_sale_mode_outlet_id')->nullable()->constrained('fnb_sale_mode_outlets')->onDelete('set null');
+            $table->decimal('paid_amount', 10, 2)->default(0);
+            $table->decimal('change_amount', 10, 2)->default(0);
+            $table->string('payment_method')->nullable();
+            $table->string('midtrans_transaction_id')->nullable();
             $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
