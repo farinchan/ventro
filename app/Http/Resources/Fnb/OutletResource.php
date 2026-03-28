@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Fnb;
 
-use App\Models\FnbBusiness;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,25 +30,31 @@ class OutletResource extends JsonResource
                 'domain' => $this->business->domain,
                 'description' => $this->business->description,
                 'license' => $this->business->license ? [
-                    'name'=> $this->business->license->name,
+                    'name' => $this->business->license->name,
                     'description' => $this->business->license->description,
-                    'max_transactions_per_day'=> $this->business->license->max_transactions_per_day,
+                    'max_transactions_per_day' => $this->business->license->max_transactions_per_day,
                     'max_users' => $this->business->license->max_users,
                     'price' => $this->business->license->price,
                 ] : null,
                 'billing_cycle' => $this->business->billing_cycle,
                 'expiry_date' => $this->business->expiry_date,
             ] : null,
-           'staff' => $this->outletStaff ? $this->outletStaff->pluck('businessUser.user')->filter()->map(function ($item) {
+            'staff' => $this->outletStaff ? $this->outletStaff->map(function ($staff) {
+                $user = $staff->businessUser?->user;
+                if (! $user) {
+                    return null;
+                }
+
                 return [
-                    'id' => $item->id,
-                    'photo' => $item->photo,
-                    'name' => $item->name,
-                    'username' => $item->username,
-                    'email' => $item->email,
-                    'phone' => $item->phone,
+                    'id' => $user->id,
+                    'photo' => $user->photo,
+                    'name' => $user->name,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'outlet_staff_id' => $staff->id,
                 ];
-            })->values() : [],
+            })->filter()->values() : [],
         ];
     }
 }

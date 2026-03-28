@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('discount', 10, 2)->default(0);
             $table->json('taxes')->nullable();
             $table->decimal('total', 10, 2);
-            $table->foreignId('fnb_sale_mode_outlet_id')->nullable()->constrained('fnb_sale_mode_outlets')->onDelete('set null');
+            $table->foreignId('fnb_sale_mode_id')->nullable()->constrained('fnb_sale_modes')->onDelete('set null');
             $table->decimal('paid_amount', 10, 2)->default(0);
             $table->decimal('change_amount', 10, 2)->default(0);
             $table->string('payment_method')->nullable();
@@ -35,7 +35,7 @@ return new class extends Migration
             $table->index('fnb_outlet_id');
             $table->index('invoice_number');
             $table->index('status');
-            $table->index('fnb_sale_mode_outlet_id');
+            $table->index('fnb_sale_mode_id');
         });
     }
 

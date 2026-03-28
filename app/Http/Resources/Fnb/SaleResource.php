@@ -72,6 +72,11 @@ class SaleResource extends JsonResource
             'payment_method' => $this->payment_method,
             'status' => $this->status,
             'midtrans_transaction_id' => $this->midtrans_transaction_id,
+            'qris' => [
+                'name' => '-',
+                'method' => '-',
+                'url' => '-',
+            ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

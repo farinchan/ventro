@@ -37,8 +37,8 @@ class ProcessTransactionRequest extends FormRequest
             'fnb_sale_items.*.note' => ['nullable', 'string'],
             'taxes' => ['nullable', 'array'],
             'taxes.*' => ['exists:fnb_taxes,id'],
-            'fnb_sale_mode_outlet_id' => ['nullable', 'exists:fnb_sale_mode_outlets,id'],
-            'paid_amount' => ['required', 'numeric'],
+            'fnb_sale_mode_id' => ['nullable', 'exists:fnb_sale_modes ,id'],
+            'paid_amount' => ['nullable', 'numeric'],
             'payment_method' => ['nullable', 'string'],
         ];
     }
@@ -62,7 +62,7 @@ class ProcessTransactionRequest extends FormRequest
             'paid_amount.required' => 'Jumlah yang dibayar harus diisi.',
             'paid_amount.numeric' => 'Jumlah yang dibayar harus berupa angka.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
-            'fnb_sale_mode_outlet_id.exists' => 'Mode penjualan tidak ditemukan.',
+            'fnb_sale_mode_id.exists' => 'Mode penjualan tidak ditemukan.',
         ];
     }
 

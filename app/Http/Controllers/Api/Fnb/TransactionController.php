@@ -106,21 +106,22 @@ class TransactionController extends Controller
 
             }
 
-            $paidAmount = null;
-            $changeAmount = null;
+            $paidAmount = 0;
+            $changeAmount = 0;
             $status = 'pending';
-            if($request->payment_method == 'cash'){
-              $paidAmount = $request->paid_amount;
-              $changeAmount = $request->paid_amount - $total;
-              $status = 'paid';
-            }elseif($request->payment_method == 'qris'){
-              $paidAmount = $total;
-              $changeAmount = 0;
-            }else{
-              $paidAmount = $total;
-              $changeAmount = 0;
+            if ($request->payment_method == 'cash') {
+                $paidAmount = $request->paid_amount;
+                $changeAmount = $request->paid_amount - $total;
+                $status = 'paid';
+            } elseif ($request->payment_method == 'qris') {
+                $paidAmount = $total;
+                $changeAmount = 0;
+            } else {
+                if ($request->payment_method && $request->payment_method != '') {
+                    $paidAmount = $total;
+                    $changeAmount = 0;
+                }
             }
-
 
             $sale = DB::transaction(function () use ($request, $outlet, $outletId, $saleItems, $taxes, $discount, $subtotal, $total, $fnbCostumerId, $paidAmount, $changeAmount, $status): FnbSale {
                 // Generate invoice number inside transaction to prevent race conditions
@@ -147,10 +148,10 @@ class TransactionController extends Controller
                     'taxes' => $taxes->toArray(),
                     'total' => $total,
                     'payment_method' => $request->payment_method,
-                    'fnb_sale_mode_outlet_id' => $request->fnb_sale_mode_outlet_id,
-                    'paid_amount'=> $paidAmount,
-                    'change_amount'=> $changeAmount,
-                    'status'=> $status,
+                    'fnb_sale_mode_id' => $request->fnb_sale_mode_id,
+                    'paid_amount' => $paidAmount,
+                    'change_amount' => $changeAmount,
+                    'status' => $status,
                 ]);
 
                 // Persist sale items
